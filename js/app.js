@@ -10,7 +10,7 @@ let newGame;
 
 //event handler for start button
 startButton.addEventListener('click', function(){
- newGame = new Game;
+ newGame = new Game();
   newGame.startGame();
 });
 

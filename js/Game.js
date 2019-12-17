@@ -12,19 +12,10 @@ class Game {
   
   
   startGame(){
+    this.resetGame();
+  
     startOverlay.style.display = 'none';
     phraseUl.innerHTML = '';
-  
-    for (let i = 0; i < keyboardLetters.length; i++){
-      keyboardLetters[i].disabled = false;
-      keyboardLetters[i].className = 'key';
-    }
-
-    for(let i = 0; i < lives.length; i++){
-      if(lives[i].firstChild.src === 'http://port-80-m3h0z6bti2.treehouse-app.com/images/lostHeart.png'){
-        lives[i].firstChild.src = 'http://port-80-m3h0z6bti2.treehouse-app.com/images/liveHeart.png';
-      }
-    }
 
     this.activePhrase = this.getRandomPhrase();
     this.activePhrase.addPhraseToDisplay();
@@ -37,19 +28,19 @@ class Game {
   
 
   handleInteraction(letter){
-    if (newGame.activePhrase.checkLetter(letter)){
-      newGame.activePhrase.showMatchedLetter(letter);
+    if (this.activePhrase.checkLetter(letter)){
+      this.activePhrase.showMatchedLetter(letter);
       for (let i = 0; i < keyboardLetters.length; i++){
         if(keyboardLetters[i].innerText.includes(letter)){
           keyboardLetters[i].disabled = true;
           keyboardLetters[i].className = 'chosen';
-          if(newGame.checkForWin()){
-            newGame.gameOver();
+          if(this.checkForWin()){
+            this.gameOver();
           }
         }
       };
     } else {
-      newGame.removeLife();
+      this.removeLife();
       for (let i = 0; i < keyboardLetters.length; i++){
         if(keyboardLetters[i].innerText.includes(letter)){
           keyboardLetters[i].disabled = true;
@@ -61,15 +52,10 @@ class Game {
   
 
   removeLife(){
-    for(let i = 0; i < lives.length; i++){
-      if(lives[i].firstChild.src === 'http://port-80-m3h0z6bti2.treehouse-app.com/images/liveHeart.png'){
-        lives[i].firstChild.src = 'http://port-80-m3h0z6bti2.treehouse-app.com/images/lostHeart.png';
-        break;
-      }
-    }
+    lives[this.missed].firstChild.src = 'images/lostHeart.png'
     this.missed += 1;
     if (this.missed === 5){
-      newGame.gameOver();
+      this.gameOver();
     }
   }
 
@@ -87,7 +73,7 @@ class Game {
 
   gameOver(){
     const gameOverMsg = document.querySelector('#game-over-message');
-    if(newGame.checkForWin()){
+    if(this.checkForWin()){
       startOverlay.className = 'win';
       gameOverMsg.innerText = 'Congratulations you won!';
     } else {
@@ -96,4 +82,16 @@ class Game {
     }
     startOverlay.style.display = 'block';
   }
+
+  resetGame(){  
+    for (let i = 0; i < keyboardLetters.length; i++){
+      keyboardLetters[i].disabled = false;
+      keyboardLetters[i].className = 'key';
+    }
+
+    for(let i = 0; i < lives.length; i++){
+      lives[i].firstChild.src = 'images/liveHeart.png'
+    }
+  }
+
 }
