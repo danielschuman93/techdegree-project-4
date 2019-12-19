@@ -14,7 +14,8 @@ startButton.addEventListener('click', function(){
   newGame.startGame();
 });
 
-//event handlers for on-screen keyboard letters
+/*event handlers for on-screen keyboard letters, 
+call handleInteraction method whenever a letter is clicked on*/
 for(let i = 0; i < keyboardLetters.length; i++){
   keyboardLetters[i].addEventListener('click', function(e){
   newGame.handleInteraction(e.target.innerText);
